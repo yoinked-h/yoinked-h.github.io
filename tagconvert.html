@@ -9,6 +9,7 @@ danbooru input (with the ? and numbers) <textarea id="s"></textarea>
 <button onclick="tagmod()">Webui-ize</button>
 
 <script>
+
 danboorunum = / [0-9]+([\.][0-9])?([kM]?)\n/g
 danbooruinterr = /\? /g
 backn = /\n/g
@@ -17,7 +18,11 @@ document.getElementById("s").value = document.getElementById("s").value + "\n"
   document.getElementById("s").value = document.getElementById("s").value.replace(danboorunum, "\n");
   document.getElementById("s").value = document.getElementById("s").value.replace(danbooruinterr, "");
   document.getElementById("s").value = document.getElementById("s").value.replace(backn, ", ");
-  
+  //replace the last comma with a space
+  document.getElementById("s").value = document.getElementById("s").value.replace(/, $/, " ");
+  //replace the parentheses with an escaped parenthesis [so \( and \)]
+  document.getElementById("s").value = document.getElementById("s").value.replace(/\(/g, "\\(");
+  document.getElementById("s").value = document.getElementById("s").value.replace(/\)/g, "\\)");
 }
 </script>
 <style>
