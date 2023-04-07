@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html>
-  <title>tagconverter</title>
-<body>
+<html><head><title>tagconverter</title>
+</head><body>
 
 danbooru input (with the ? and numbers) <textarea id="s"></textarea>
 
 
 <button onclick="tagmod()">Webui-ize</button>
 <button onclick="tagmodbreak()">Webui-ize (BREAK ver)</button>
+<button onclick="gelbooru()">Webui-ize (gelbooru)</button>
 
 <script>
 
 danboorunum = / [0-9]+([\.][0-9])?([kM]?)\n/g
 danbooruinterr = /\? /g
 backn = /\n/g
+function gelbooru() {
+  //replace each ? for a \n
+  document.getElementById("s").value = document.getElementById("s").value.replace(danbooruinterr, "\n? ");
+  tagmod();
+}
+
 function tagmod() {
 document.getElementById("s").value = document.getElementById("s").value + "\n"
   document.getElementById("s").value = document.getElementById("s").value.replace(danboorunum, "\n");
@@ -24,6 +30,7 @@ document.getElementById("s").value = document.getElementById("s").value + "\n"
   //replace the parentheses with an escaped parenthesis [so \( and \)]
   document.getElementById("s").value = document.getElementById("s").value.replace(/\(/g, "\\(");
   document.getElementById("s").value = document.getElementById("s").value.replace(/\)/g, "\\)");
+  autocopy();
 }
 function tagmodbreak() {
 document.getElementById("s").value = document.getElementById("s").value + "\n"
@@ -35,6 +42,15 @@ document.getElementById("s").value = document.getElementById("s").value + "\n"
   //replace the parentheses with an escaped parenthesis [so \( and \)]
   document.getElementById("s").value = document.getElementById("s").value.replace(/\(/g, "\\(");
   document.getElementById("s").value = document.getElementById("s").value.replace(/\)/g, "\\)");
+  autocopy();
+}
+
+function autocopy() {
+  var copyText = document.getElementById("s");
+  copyText.select();
+  // copy the text to the user's clipboard
+  document.execCommand("copy");
+  // alert("Copied the text: " + copyText.value);
 }
 </script>
 <style>
@@ -65,5 +81,6 @@ button {
   font-size: 16px;
 }
 </style>
-</body>
-</html>
+
+
+</body></html>
