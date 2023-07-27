@@ -29,6 +29,7 @@ document.getElementById("s").value = document.getElementById("s").value + "\n"
   document.getElementById("s").value = document.getElementById("s").value.replace(/, $/, " ");
   //replace the parentheses with an escaped parenthesis [so \( and \)]
   document.getElementById("s").value = document.getElementById("s").value.replace(/\(/g, "\\(");
+  document.getElementById("s").value = document.getElementById("s").value.replace(/     /g, "");
   document.getElementById("s").value = document.getElementById("s").value.replace(/\)/g, "\\)");
   autocopy();
 }
@@ -39,8 +40,9 @@ document.getElementById("s").value = document.getElementById("s").value + "\n"
   document.getElementById("s").value = document.getElementById("s").value.replace(backn, " BREAK ");
   //replace the last comma with a space
   document.getElementById("s").value = document.getElementById("s").value.replace(/, $/, " ");
-  //replace the parentheses with an escaped parenthesis [so \( and \)]
+  //replace the parentheses with an escaped parenthesis [so \( and \)] `,     `
   document.getElementById("s").value = document.getElementById("s").value.replace(/\(/g, "\\(");
+  document.getElementById("s").value = document.getElementById("s").value.replace(/     /g, "");
   document.getElementById("s").value = document.getElementById("s").value.replace(/\)/g, "\\)");
   autocopy();
 }
