@@ -6,9 +6,11 @@ danbooru input (with the ? and numbers) <textarea id="s"></textarea>
 
 
 <button onclick="tagmod()">Webui-ize</button>
-<button onclick="tagmodbreak()">Webui-ize (BREAK ver)</button>
 <button onclick="gelbooru()">Webui-ize (gelbooru)</button>
-
+<br><br><br>
+splitter id [ususally ","]
+<textarea id="p" style="width: 35px;height: 60px;font-size: 24px;padding 6px 8px">,</textarea>
+<button onclick="split()">save splitter</button>
 <script>
 
 danboorunum = / [0-9]+([\.][0-9])?([kM]?)\n/g
@@ -19,28 +21,17 @@ function gelbooru() {
   document.getElementById("s").value = document.getElementById("s").value.replace(danbooruinterr, "\n? ");
   tagmod();
 }
-
+function split(){
+setCookie('sep',document.getElementById("p").value,366);
+}
 function tagmod() {
 document.getElementById("s").value = document.getElementById("s").value + "\n"
   document.getElementById("s").value = document.getElementById("s").value.replace(danboorunum, "\n");
   document.getElementById("s").value = document.getElementById("s").value.replace(danbooruinterr, "");
-  document.getElementById("s").value = document.getElementById("s").value.replace(backn, ", ");
+  document.getElementById("s").value = document.getElementById("s").value.replace(backn, getCookie('sep', document.getElementById("p").value)+" ");
   //replace the last comma with a space
   document.getElementById("s").value = document.getElementById("s").value.replace(/, $/, " ");
   //replace the parentheses with an escaped parenthesis [so \( and \)]
-  document.getElementById("s").value = document.getElementById("s").value.replace(/\(/g, "\\(");
-  document.getElementById("s").value = document.getElementById("s").value.replace(/     /g, " ");
-  document.getElementById("s").value = document.getElementById("s").value.replace(/\)/g, "\\)");
-  autocopy();
-}
-function tagmodbreak() {
-document.getElementById("s").value = document.getElementById("s").value + "\n"
-  document.getElementById("s").value = document.getElementById("s").value.replace(danboorunum, "\n");
-  document.getElementById("s").value = document.getElementById("s").value.replace(danbooruinterr, "");
-  document.getElementById("s").value = document.getElementById("s").value.replace(backn, " BREAK ");
-  //replace the last comma with a space
-  document.getElementById("s").value = document.getElementById("s").value.replace(/, $/, " ");
-  //replace the parentheses with an escaped parenthesis [so \( and \)] `,     `
   document.getElementById("s").value = document.getElementById("s").value.replace(/\(/g, "\\(");
   document.getElementById("s").value = document.getElementById("s").value.replace(/     /g, " ");
   document.getElementById("s").value = document.getElementById("s").value.replace(/\)/g, "\\)");
@@ -54,6 +45,30 @@ function autocopy() {
   document.execCommand("copy");
   // alert("Copied the text: " + copyText.value);
 }
+
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname, fallback) { // i love w3 schools since i do not like js
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return fallback;
+}
+
+
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
