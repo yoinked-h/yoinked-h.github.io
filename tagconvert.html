@@ -38,6 +38,13 @@ document.getElementById("s").value = document.getElementById("s").value + "\n"
   autocopy();
 }
 
+function dashconv() {
+  tagmod();
+  document.getElementById("s").value = document.getElementById("s").value.replace(", ", ",");
+  document.getElementById("s").value = document.getElementById("s").value.replace(" ", "-");
+  document.getElementById("s").value = document.getElementById("s").value.replace(",", " ");
+  autocopy();
+}
 function autocopy() {
   var copyText = document.getElementById("s");
   copyText.select();
