@@ -2,17 +2,23 @@
   "name": "AI Chat Assistant",
   "short_name": "AI Chat",
   "description": "Progressive Web App for chatting with AI models",
-  "start_url": "/",
+  "start_url": "/app.html",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#4A90E2",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon512.png",
+      "src": "aiappthing/icon512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "aiappthing/icon192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose":"any maskable"
     }
   ]
 }
