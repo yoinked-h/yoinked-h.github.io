@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4A90E2">
+    <meta name="description" content="gemini ai pwa app thing">
+    <link rel="manifest" href="aiappthing/manifest.json">
+    <title>pwa app</title>
+    <link rel="stylesheet" href="aiappthing/styles.css">
+</head>
+<body>
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h2>sessions</h2>
+            <button class="close-menu-btn" id="closeMenuBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <button class="new-chat-btn" id="newChatBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            new chat
+        </button>
+
+        <div class="chat-list" id="chatList">
+        </div>
+
+        <div class="side-menu-footer">
+            <button class="global-settings-btn" id="globalSettingsBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                global settings
+            </button>
+        </div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <header class="app-header">
+        <button class="menu-btn" id="menuBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <h1 class="app-title" id="appTitle">Untitled</h1>
+        <button class="settings-btn" id="settingsBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Chat Container -->
+    <main class="chat-container" id="chatContainer">
+        <div class="welcome-message">
+            <h2>welcome</h2>
+            <p>start</p>
+        </div>
+    </main>
+
+    <!-- Input Area -->
+    <div class="input-container">
+        <button class="add-btn" id="addBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+        <div class="input-wrapper">
+            <textarea 
+                id="messageInput" 
+                class="message-input" 
+                placeholder="Type your message..."
+                rows="1"></textarea>
+            <div class="attachment-preview hidden" id="attachmentPreview"></div>
+        </div>
+        <button class="send-btn" id="sendBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        </button>
+        <input type="file" id="fileInput" class="hidden-file-input" accept="image/*,video/*,audio/*" multiple>
+    </div>
+
+    <!-- Context Menu -->
+    <div class="context-menu hidden" id="contextMenu">
+        <button class="context-menu-item" data-action="edit">
+            <span>✏️</span> Edit
+        </button>
+        <button class="context-menu-item" data-action="delete">
+            <span>🗑️</span> Delete
+        </button>
+        <button class="context-menu-item" data-action="retry">
+            <span>🔄</span> Retry
+        </button>
+    </div>
+
+    <!-- Chat Context Menu -->
+    <div class="context-menu hidden" id="chatContextMenu">
+        <button class="context-menu-item" data-action="rename">
+            <span>✏️</span> Rename
+        </button>
+        <button class="context-menu-item" data-action="settings">
+            <span>⚙️</span> Settings
+        </button>
+        <button class="context-menu-item" data-action="delete-chat">
+            <span>🗑️</span> Delete
+        </button>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal hidden" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="settingsModalTitle">Chat Settings</h2>
+                <button class="close-modal-btn" id="closeSettingsBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="settingsForm">
+                    <div class="form-group">
+                        <label for="chatName">Chat Name</label>
+                        <input type="text" id="chatName" placeholder="Untitled" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userName">Your Name</label>
+                        <input type="text" id="userName" placeholder="User" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="aiName">AI Name</label>
+                        <input type="text" id="aiName" placeholder="Assistant" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="systemInstructions">System Instructions</label>
+                        <textarea id="systemInstructions" rows="4" placeholder="You are a helpful assistant..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelSettingsBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Settings Modal -->
+    <div class="modal hidden" id="globalSettingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>global settings</h2>
+                <button class="close-modal-btn" id="closeGlobalSettingsBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="globalSettingsForm">
+                    <div class="form-group">
+                        <label for="apiKey">API Key</label>
+                        <input type="password" id="apiKey" placeholder="sk-..." />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="theme">Theme</label>
+                        <select id="theme">
+                            <option value="system">System</option>
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="model">Model</label>
+                        <select id="model">
+                            <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                            <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                            <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="temperature">Temperature</label>
+                        <input type="number" id="temperature" min="0" max="1" step="0.1" placeholder="0.6" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxTokens">Max Output Tokens</label>
+                        <input type="number" id="maxTokens" min="1" max="200000" step="1" placeholder="1024" />
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelGlobalSettingsBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-indicator hidden" id="loadingIndicator">
+        <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <script src="aiappthing/marked.min.js"></script>
+    <script>
+        marked.setOptions({ breaks: true });
+    </script>
+    <script src="aiappthing/app.js"></script>
+</body>
+</html>
